@@ -4,7 +4,7 @@ module ZooStream
   class KinesisPublisher
     attr_reader :stream_name, :client
 
-    def initialize(stream_name: ENV.fetch("ZOO_STREAM_KINESIS_STREAM_NAME"), client: Aws::Kinesis::Client.new)
+    def initialize(stream_name: ENV["ZOO_STREAM_KINESIS_STREAM_NAME"], client: Aws::Kinesis::Client.new)
       @stream_name = stream_name
       @client = client
     end
