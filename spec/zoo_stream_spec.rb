@@ -5,6 +5,10 @@ describe ZooStream do
     expect(ZooStream::VERSION).not_to be nil
   end
 
+  before do
+    ZooStream.source = 'zoo_stream_specs'
+  end
+
   describe '#publish' do
     it 'does nothing if the publisher is not set' do
       ZooStream.publisher = nil
@@ -17,7 +21,7 @@ describe ZooStream do
 
       event, data, linked, shard_by = double, double, double, double
       ZooStream.publish(event: event, data: data, linked: linked, shard_by: shard_by)
-      expect(publisher).to have_received(:publish).with(event: event, data: data, linked: linked, shard_by: shard_by.to_s)
+      expect(publisher).to have_received(:publish).with(an_instance_of(ZooStream::Event), shard_by: shard_by.to_s)
     end
 
     it 'sets the default shard to the event type itself' do
@@ -26,7 +30,7 @@ describe ZooStream do
 
       event, data, linked, shard_by = double("Event"), double, double, double
       ZooStream.publish(event: event, data: data, linked: linked)
-      expect(publisher).to have_received(:publish).with(event: event, data: data, linked: linked, shard_by: event.to_s)
+      expect(publisher).to have_received(:publish).with(an_instance_of(ZooStream::Event), shard_by: event.to_s)
     end
   end
 end

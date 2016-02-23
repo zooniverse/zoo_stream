@@ -1,4 +1,5 @@
 require "zoo_stream/version"
+require 'zoo_stream/event'
 require "zoo_stream/kinesis_publisher"
 
 module ZooStream
@@ -10,12 +11,8 @@ module ZooStream
   # @param shard_by [String] if present, reader order will be guaranteed within this shard. If left blank, the entire stream will always be a single shard.
   def self.publish(event:, data:, linked: {}, shard_by: nil)
     return unless publisher
-    publisher.publish(
-      event: event,
-      data: data,
-      linked: linked,
-      shard_by: (shard_by || event).to_s
-    )
+    event = Event.new(source, event, data, linked)
+    publisher.publish(event, shard_by: (shard_by || event.type).to_s)
   end
 
   def self.publisher
@@ -24,5 +21,13 @@ module ZooStream
 
   def self.publisher=(publisher)
     @publisher = publisher
+  end
+
+  def self.source
+    @source
+  end
+
+  def self.source=(source)
+    @source = source
   end
 end

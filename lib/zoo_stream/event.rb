@@ -1,17 +1,17 @@
 module ZooStream
   class Event
-    attr_reader :source, :event, :data, :linked
+    attr_reader :source, :type, :data, :linked, :timestamp
 
-    def initialize(source, event, data, linked)
-      @source, @event, @data, @linked = source, event, data, linked
+    def initialize(source, type, data, linked, timestamp: Time.now)
+      @source, @type, @data, @linked, @timestamp = source, type, data, linked, timestamp
     end
 
     def to_h
       {
         source: source,
-        type: event,
+        type: type,
         version: '1.0.0',
-        timestamp: Time.now.utc.iso8601,
+        timestamp: timestamp.utc.iso8601,
         data: data,
         linked: linked
       }
