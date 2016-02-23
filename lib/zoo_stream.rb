@@ -27,7 +27,7 @@ module ZooStream
   end
 
   def self.source
-    @source || ENV.fetch("ZOO_STREAM_SOURCE")
+    @source || ENV["ZOO_STREAM_SOURCE"]
   end
 
   def self.source=(source)
