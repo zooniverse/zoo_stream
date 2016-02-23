@@ -28,7 +28,7 @@ You can either configure this gem using environment variables:
 Or programmatically (not recommended):
 
 ```ruby
-ZooStream.publisher = ZooStream::KinesisPublisher.new("zooniverse-production")
+ZooStream.publisher = ZooStream::KinesisPublisher.new(stream_name: "zooniverse-production")
 ZooStream.source = "my-application"
 ```
 
