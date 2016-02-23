@@ -1,8 +1,10 @@
 # ZooStream
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/zoo_stream`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Within the Zooniverse backend infrastructure, we run a Kinesis stream so that internal agents can listen to
+what's happening inside our applications, calculate stuff on the fly and/or respond to events as they happen.
+For instance, [Nero](https://github.com/zooniverse/nero) reacts to classifications and decides when to retire
+subjects, while [ZooEventStats](https://github.com/zooniverse/zoo-event-stats) aggregates various statistics that
+get published on dashboards like [watch.zooniverse.org](http://watch.zooniverse.org).
 
 ## Installation
 
@@ -22,7 +24,36 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To publish events on the stream, you'll need to set up AWS roles. In the AWS console, make sure the instance your service
+is running on is assigned an IAM role, and attach the "Kinesis-Stream-Writer" managed policy to that role. This will allow the AWS client gem to automatically get credentials with the correct access permissions.
+
+You can either configure this gem using environment variables:
+
+  * For production, set the environment variable `ZOO_STREAM_KINESIS_STREAM_NAME` to `panoptes-production`
+  * For staging, set the environment variable `ZOO_STREAM_KINESIS_STREAM_NAME` to `panoptes-staging`
+  * Set the environment variable `ZOO_STREAM_SOURCE` to the name of your service (keep it lowercased and whitespace-free).
+
+Or programmatically (not recommended):
+
+```ruby
+ZooStream.publisher = ZooStream::KinesisPublisher.new("panoptes-production")
+ZooStream.source = "my-application"
+```
+
+To post an event to the Kinesis stream, call `#publish`. You need to specify the `event` type and the `data` of the event.
+Optionally, you can pass in records related to the main data under `linked`, and you can specify the `shard_by` if events
+don't need to be processed in globally consistent order, as long as they are ordered within the `shard_by`.
+
+```ruby
+ZooStream.publish(event: 'classification',
+                  data: {annotations: {}, links: {subject: 1}},
+                  linked: {subjects: [{id: 1, metadata: {}}]},
+                  shard_by: workflow.id)
+```
+
+If you don't set a stream name, **this gem will silently ignore all `#publish` messages**.
+
+
 
 ## Development
 
@@ -33,7 +64,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/zoo_stream. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
 
 ## License
 
