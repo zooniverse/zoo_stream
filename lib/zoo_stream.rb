@@ -19,7 +19,7 @@ module ZooStream
   end
 
   def self.publisher
-    @publisher || default_publisher
+    @publisher ||= default_publisher
   end
 
   def self.publisher=(publisher)
