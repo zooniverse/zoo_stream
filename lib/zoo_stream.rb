@@ -9,7 +9,10 @@ module ZooStream
   # @param data [Hash] the event data
   # @param linked [Hash] related models to the data
   # @param shard_by [String] if present, reader order will be guaranteed within this shard. If left blank, the entire stream will always be a single shard.
-  def self.publish(event:, data:, linked: {}, shard_by: nil)
+  def self.publish(event: nil, data: nil, linked: {}, shard_by: nil)
+    raise ArgumentError, "Must specify event" unless event
+    raise ArgumentError, "Must specify data" unless data
+
     return unless publisher
     event = Event.new(source, event, data, linked)
     publisher.publish(event, shard_by: (shard_by || event.type).to_s)

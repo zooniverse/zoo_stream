@@ -9,7 +9,9 @@ module ZooStream
       @client = client
     end
 
-    def publish(event, shard_by:)
+    def publish(event, shard_by: nil)
+      raise ArgumentError, "Must specify shard_by" unless shard_by
+      
       client.put_record(
         stream_name: stream_name,
         partition_key: shard_by,
