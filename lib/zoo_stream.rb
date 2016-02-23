@@ -16,7 +16,7 @@ module ZooStream
   end
 
   def self.publisher
-    @publisher
+    @publisher || default_publisher
   end
 
   def self.publisher=(publisher)
@@ -24,10 +24,16 @@ module ZooStream
   end
 
   def self.source
-    @source
+    @source || ENV.fetch("ZOO_STREAM_SOURCE")
   end
 
   def self.source=(source)
     @source = source
+  end
+
+  def self.default_publisher
+    if ENV.key?("ZOO_STREAM_KINESIS_STREAM_NAME")
+      ZooStream::KinesisPublisher.new
+    end
   end
 end
