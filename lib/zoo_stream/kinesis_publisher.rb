@@ -1,6 +1,5 @@
 require 'aws-sdk'
 
-
 module ZooStream
   class KinesisPublisher
     attr_reader :stream_name, :client
