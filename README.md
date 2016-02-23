@@ -21,14 +21,14 @@ is running on is assigned an IAM role, and attach the "Kinesis-Stream-Writer" ma
 
 You can either configure this gem using environment variables:
 
-  * For production, set the environment variable `ZOO_STREAM_KINESIS_STREAM_NAME` to `panoptes-production`
-  * For staging, set the environment variable `ZOO_STREAM_KINESIS_STREAM_NAME` to `panoptes-staging`
+  * For production, set the environment variable `ZOO_STREAM_KINESIS_STREAM_NAME` to `zooniverse-production`
+  * For staging, set the environment variable `ZOO_STREAM_KINESIS_STREAM_NAME` to `zooniverse-staging`
   * Set the environment variable `ZOO_STREAM_SOURCE` to the name of your service (keep it lowercased and whitespace-free).
 
 Or programmatically (not recommended):
 
 ```ruby
-ZooStream.publisher = ZooStream::KinesisPublisher.new("panoptes-production")
+ZooStream.publisher = ZooStream::KinesisPublisher.new("zooniverse-production")
 ZooStream.source = "my-application"
 ```
 
