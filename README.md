@@ -22,7 +22,7 @@ Or install it yourself as:
 
     $ gem install zoo_stream
 
-## Usage
+## Configuration
 
 To publish events on the stream, you'll need to set up AWS roles. In the AWS console, make sure the instance your service
 is running on is assigned an IAM role, and attach the "Kinesis-Stream-Writer" managed policy to that role. This will allow the AWS client gem to automatically get credentials with the correct access permissions.
@@ -39,6 +39,8 @@ Or programmatically (not recommended):
 ZooStream.publisher = ZooStream::KinesisPublisher.new("panoptes-production")
 ZooStream.source = "my-application"
 ```
+
+## Usage
 
 To post an event to the Kinesis stream, call `#publish`. You need to specify the `event` type and the `data` of the event.
 Optionally, you can pass in records related to the main data under `linked`, and you can specify the `shard_by` if events
