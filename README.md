@@ -8,19 +8,11 @@ get published on dashboards like [watch.zooniverse.org](http://watch.zooniverse.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
 ```ruby
-gem 'zoo_stream'
+gem 'zoo_stream', '~> 1.0'
 ```
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install zoo_stream
+We follow SemVer.
 
 ## Configuration
 
