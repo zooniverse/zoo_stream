@@ -28,7 +28,7 @@ You can either configure this gem using environment variables:
 Or programmatically (not recommended):
 
 ```ruby
-ZooStream.publisher = ZooStream::KinesisPublisher.new("zooniverse-production")
+ZooStream.publisher = ZooStream::KinesisPublisher.new(stream_name: "zooniverse-production")
 ZooStream.source = "my-application"
 ```
 
@@ -51,9 +51,21 @@ If you don't set a stream name, **this gem will silently ignore all `#publish` m
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `bundle exec rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+Use docker & compose to setup the dev env
+
+```shell
+docker-compose build
+```
+
+Run a bash shell inside the new container
+
+```shell
+docker-compose run --service-ports --rm zoo_stream bash
+```
 
 ## Contributing
 

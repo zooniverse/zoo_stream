@@ -1,0 +1,11 @@
+version: '3'
+services:
+  zoo_stream:
+    build:
+      context: .
+    volumes:
+      - ./:/app
+      - gem_cache:/usr/local/bundle
+
+volumes:
+  gem_cache:
