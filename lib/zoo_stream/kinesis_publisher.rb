@@ -1,4 +1,4 @@
-require 'aws-sdk'
+require 'aws-sdk-kinesis'
 
 module ZooStream
   class KinesisPublisher
@@ -11,7 +11,7 @@ module ZooStream
 
     def publish(event, shard_by: nil)
       raise ArgumentError, "Must specify shard_by" unless shard_by
-      
+
       client.put_record(
         stream_name: stream_name,
         partition_key: shard_by,
